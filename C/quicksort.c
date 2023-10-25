@@ -2,18 +2,31 @@
 #include <stdlib.h>
 #include <time.h>
 
-void insertionSort(int arr[], int n) {
-    int i, key, j;
-    for (i = 1; i < n; i++) {
-        key = arr[i];
-        j = i - 1;
+void swap(int* a, int* b) {
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
 
-        /* Move os elementos do arr[0..i-1], que são maiores que a chave, para uma posição à frente de sua posição atual */
-        while (j >= 0 && arr[j] > key) {
-            arr[j + 1] = arr[j];
-            j = j - 1;
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = (low - 1);
+
+    for (int j = low; j <= high - 1; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            swap(&arr[i], &arr[j]);
         }
-        arr[j + 1] = key;
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
     }
 }
 
@@ -30,11 +43,11 @@ int main() {
         }
 
         clock_t inicio = clock(); /* Marca o tempo de início da ordenação */
-        insertionSort(arr, n);
+        quickSort(arr, 0, n - 1);
         clock_t fim = clock(); /* Marca o tempo de fim da ordenação */
 
         double tempo = (double)(fim - inicio) / CLOCKS_PER_SEC; /* Calcula o tempo de execução em segundos */
-        printf("Tempo de execucao para tamanho %d foi: %.4f segundos\n", n, tempo);
+        printf("Tempo de execucao do tamanho %d foi: %.4f segundos\n", n, tempo);
     }
 
     return 0;

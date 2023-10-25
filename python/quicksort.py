@@ -47,7 +47,7 @@ def quickSort(array):
             stack.append((pi + 1, high))
 
 # Generate random arrays of integers
-sizes = [1000, 10000, 100000]
+sizes = [1000, 5000, 10000, 20000, 50000, 75000, 100000]
 times = []
 for size in sizes:
     data = [random.randint(0, 100) for _ in range(size)]
